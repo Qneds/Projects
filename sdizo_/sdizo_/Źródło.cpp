@@ -34,13 +34,6 @@ void menu_table()
 	string fileName;
 	int index, value;
 
-	//if (&myTab != NULL) {
-	//	delete &myTab;
-	//}
-
-
-	myTab = Table::Table();
-
 
 	do {
 		displayMenu("--- TABLICA ---");
@@ -50,7 +43,7 @@ void menu_table()
 		case '1': //tutaj wczytytwanie  tablicy z pliku
 			cout << " Podaj nazwê zbioru:";
 			cin >> fileName;
-			cout << "\n" << myTab.loadFromFile(fileName) << endl;
+			myTab.loadFromFile(fileName);
 			myTab.display();
 			break;
 
