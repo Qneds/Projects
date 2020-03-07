@@ -12,6 +12,8 @@ class Table
 	int cnt; //iloœæ elementów w tablicy
 public:
 
+	Table();
+
 	int loadFromFile(string FileName);
 
 	bool IsValueInTable(int val);
