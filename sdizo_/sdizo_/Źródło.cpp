@@ -116,7 +116,7 @@ void menu_list()
 {
 	char opt;
 	string fileName;
-	int index, value;
+	int value;
 
 
 	do {
