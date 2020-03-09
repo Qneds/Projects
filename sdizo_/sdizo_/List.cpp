@@ -7,6 +7,8 @@ using namespace std;
 
 List::List()
 {
+	head = NULL;
+	tail = NULL;
 }
 
 void List::popFront()
@@ -73,6 +75,7 @@ void List::display()
 	cout << "|       LISTA       |" << endl;
 	cout << "---------------------" << endl;
 	cout << "|   przod   |  tyl  |" << endl;
+	cout << "|     v     |   v   |" << endl;
 	cout << "---------------------" << endl;
 
 	ElementList* tmpFront = head, * tmpBack = tail;
@@ -110,6 +113,7 @@ void List::createRandom(int size)
 	srand(time(NULL));
 
 	head = new ElementList;
+	head->value = rand() % 1001;
 	head->prev = NULL;
 	head->next = NULL;
 	tail = head;
