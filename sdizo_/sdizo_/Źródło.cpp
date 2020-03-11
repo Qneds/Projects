@@ -3,6 +3,7 @@
 #include<iostream>
 #include "Table.h"
 #include "List.h"
+#include "Heap.h"
 using namespace std;
 
 
@@ -11,7 +12,7 @@ using namespace std;
 
 
 
-void displayMenu(string info)
+void displayMenuTable(string info)
 {
 	cout << endl;
 	cout << info << endl;
@@ -44,9 +45,26 @@ void displayMenuList(string info) {
 
 }
 
+void displayMenuHeap(string info) {
+
+	cout << endl;
+	cout << info << endl;
+	cout << "1.Wczytaj z pliku" << endl;
+	cout << "2.Usun element z korzenia" << endl;
+	cout << "3.Dodaj element" << endl;
+	cout << "4.Znajdz" << endl;
+	cout << "5.Utworz losowo" << endl;
+	cout << "6.Wyswietl" << endl;
+	cout << "7.Test (pomiary)" << endl;
+	cout << "0.Powrot do menu" << endl;
+	cout << "Podaj opcje:";
+
+}
+
 
 Table myTab; //myTab mo¿e byæ dynamiczna, mo¿e byc zadeklarowana w manu_table 
 List myList;
+Heap myHeap;
 
 void menu_table()
 {
@@ -56,7 +74,7 @@ void menu_table()
 
 
 	do {
-		displayMenu("--- TABLICA ---");
+		displayMenuTable("--- TABLICA ---");
 		opt = _getche();
 		cout << endl;
 		switch (opt) {
@@ -124,7 +142,7 @@ void menu_list()
 		opt = _getche();
 		cout << endl;
 		switch (opt) {
-		case '1': //tutaj wczytytwanie  tablicy z pliku
+		case '1': //tutaj wczytytwanie listy z pliku
 			cout << " Podaj nazwê zbioru:";
 			cin >> fileName;
 			myList.loadFromFile(fileName);
@@ -148,7 +166,7 @@ void menu_list()
 			myList.display();
 			break;
 
-		case '5':  //tutaj dodawanie elementu na koniec tablicy
+		case '5':  //tutaj dodawanie elementu na koniec listy
 			cout << " podaj wartoœæ:";
 			cin >> value;
 			myList.pushBack(value);
@@ -160,9 +178,9 @@ void menu_list()
 			cout << " podaj wartoœæ:";
 			cin >> value;
 			if (myList.isValueInList(value))
-				cout << "poadana wartoœc jest w tablicy";
+				cout << "poadana wartoœc jest w liscie";
 			else
-				cout << "poadanej wartoœci NIE ma w tablicy";
+				cout << "poadanej wartoœci NIE ma w liscie";
 
 			myList.display();
 			break;
@@ -190,7 +208,66 @@ void menu_list()
 
 void menu_heap()
 {
-	//analogicznie jak menu_table()
+	char opt;
+	string fileName;
+	int value;
+
+
+	do {
+		displayMenuHeap("--- STERTA ---");
+		opt = _getche();
+		cout << endl;
+		switch (opt) {
+		case '1': //tutaj wczytytwanie  tablicy z pliku
+			cout << " Podaj nazwê zbioru:";
+			cin >> fileName;
+			myHeap.loadFromFile(fileName);
+			myHeap.display();
+			break;
+
+		case '2': //tutaj usuwanie korzenia
+			myHeap.pop();
+			myHeap.display();
+			break;
+
+		case '3': //tutaj dodawanie elementu do sterty
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			myHeap.push(value);
+			myHeap.display();
+			break;
+
+		case '4':  //tutaj znajdowanie elementu w stercie
+
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			if (myHeap.isValueInHeap(value))
+				cout << "poadana wartoœc jest w stercie";
+			else
+				cout << "poadanej wartoœci NIE ma w stercie";
+
+			myHeap.display();
+			break;
+
+		case '5':  //tutaj losowe generowanie sterty
+
+			cout << " podaj rozmiar:";
+			cin >> value;
+
+			myHeap.createRandom(value);
+			myHeap.display();
+			break;
+
+		case '6': //tutaj wyœwietlanie sterty
+			myHeap.display();
+			break;
+
+		case '7': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
+				  // mo¿na sobie tu dodaæ w³asne case'y
+			break;
+		}
+
+	} while (opt != '0');
 }
 
 int main(int argc, char* argv[])
