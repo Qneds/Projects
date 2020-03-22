@@ -1,5 +1,6 @@
 #include "Table.h"
 #include <time.h>
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -15,43 +16,33 @@ int Table::loadFromFile(string FileName) {
 	
 	int size = 0;
 
-	inf.open(FileName);
+	
+	inf.open(FileName, ifstream::in);
 
-	if (inf) {
+	if (inf.is_open()) {
 
-		while (!inf.eof())
-		{
-			size++;
-		}
-
-		inf.close();
+		inf >> size;
 
 		if (size > 0) {
 
-			inf.open(FileName);
+			delete tab;
+			tab = new int[size];
 
-			if (inf.is_open()) {
-
-				delete tab;
-
-				tab = new int[size];
-
-				cnt = size;
-				size = 0;
-
-				while (!inf.eof())
-				{
-					inf >> tab[size];
-					size++;
-				}
-
-				inf.close();
+			int i = 0;
+			while (inf.eof())
+			{
+				inf >> tab[i];
+				i++;
 			}
 
 		}
 
-	}
+		inf.close();
 
+	}
+	else {
+		cout << "B³¹d w odczycie pliku\n\n";
+	}
 
 	return 0;
 }
