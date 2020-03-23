@@ -13,6 +13,7 @@ class Table
 public:
 
 	Table();
+	~Table();
 
 	int loadFromFile(string FileName);
 

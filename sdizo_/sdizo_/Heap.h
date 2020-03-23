@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-constexpr auto HEAP_TAB_MAX = 1000;
+constexpr auto HEAP_TAB_MAX = 10000;
 
 using namespace std;
 

@@ -34,12 +34,14 @@ void displayMenuList(string info) {
 	cout << "1.Wczytaj z pliku" << endl;
 	cout << "2.Usun z przodu" << endl;
 	cout << "3.Usun z tylu" << endl;
-	cout << "4.Dodaj z przodu" << endl;
-	cout << "5.Dodaj z tylu" << endl;
-	cout << "6.Znajdz" << endl;
-	cout << "7.Utworz losowo" << endl;
-	cout << "8.Wyswietl" << endl;
-	cout << "9.Test (pomiary)" << endl;
+	cout << "4.Usun liczbe " << endl;
+	cout << "5.Dodaj z przodu" << endl;
+	cout << "6.Dodaj z tylu" << endl;
+	cout << "7.Dodaj liczbe" << endl;
+	cout << "8.Znajdz" << endl;
+	cout << "9.Utworz losowo" << endl;
+	cout << "q.Wyswietl" << endl;
+	cout << "w.Test (pomiary)" << endl;
 	cout << "0.Powrot do menu" << endl;
 	cout << "Podaj opcje:";
 
@@ -134,7 +136,7 @@ void menu_list()
 {
 	char opt;
 	string fileName;
-	int value;
+	int value, index;
 
 
 	do {
@@ -159,22 +161,37 @@ void menu_list()
 			myList.display();
 			break;
 
-		case '4': //tutaj dodawanie elementu na przód listy
-			cout << " podaj wartoœæ:";
+		case '4': //tutaj usuwanie elementu o podanej wartosci
+			cout << "podaj wartosc do usuniecia:";
+			cin >> value;
+			myList.deleteValue(value);
+			myList.display();
+			break;
+
+		case '5': //tutaj dodawanie elementu na przód listy
+			cout << "podaj wartoœæ:";
 			cin >> value;
 			myList.pushFront(value);
 			myList.display();
 			break;
 
-		case '5':  //tutaj dodawanie elementu na koniec listy
-			cout << " podaj wartoœæ:";
+		case '6':  //tutaj dodawanie elementu na koniec listy
+			cout << "podaj wartoœæ:";
 			cin >> value;
 			myList.pushBack(value);
 			myList.display();
 			break;
 
-		case '6':  //tutaj znajdowanie elementu w liœcie
+		case '7': //tutaj dodawanie elementu o podanej wartosci we wskazane miejsce
+			cout << "podaj index:";
+			cin >> index;
+			cout << "\npodaj wartos:";
+			cin >> value;
+			myList.addValue(value, index);
+			myList.display();
+			break;
 
+		case '8':  //tutaj znajdowanie elementu w liœcie
 			cout << " podaj wartoœæ:";
 			cin >> value;
 			if (myList.isValueInList(value))
@@ -185,20 +202,18 @@ void menu_list()
 			myList.display();
 			break;
 
-		case '7':  //tutaj losowe generowanie listy
-
+		case '9':  //tutaj losowe generowanie listy
 			cout << " podaj rozmiar:";
 			cin >> value;
-
 			myList.createRandom(value);
 			myList.display();
 			break;
 
-		case '8' : //tutaj wyœwietlanie listy
+		case 'q' : //tutaj wyœwietlanie listy
 			myList.display();
 			break;
 
-		case '9': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
+		case 'w': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
 				  // mo¿na sobie tu dodaæ w³asne case'y
 			break;
 		}

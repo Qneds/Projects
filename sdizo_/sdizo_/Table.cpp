@@ -10,26 +10,31 @@ Table::Table() {
 	Table::cnt = 0;
 }
 
+Table::~Table()
+{
+	delete tab;
+
+}
+
 int Table::loadFromFile(string FileName) {
 
 	ifstream inf;
 	
-	int size = 0;
 
 	
 	inf.open(FileName, ifstream::in);
 
 	if (inf.is_open()) {
 
-		inf >> size;
+		inf >> cnt;
 
-		if (size > 0) {
+		if (cnt > 0) {
 
 			delete tab;
-			tab = new int[size];
+			tab = new int[cnt];
 
 			int i = 0;
-			while (inf.eof())
+			while (!inf.eof())
 			{
 				inf >> tab[i];
 				i++;
@@ -128,15 +133,16 @@ void Table::deleteFromTable(int index) {
 void Table::display() {
 
 	cout << "\n\n";
-	cout << "---------------------" << endl;
-	cout << "|       TABELA       |" << endl;
-	cout << "---------------------" << endl;
-	cout << "|   id   |  wartosc  |" << endl;
-	cout << "---------------------" << endl;
+	cout << "----------------------" << endl;
+	cout << "|       TABLICA      | ";
+	
+	
 
 	for (int i = 0; i < cnt; i++) {
-		cout << "| " << i << " | " << tab[i] << " |" << endl;
+		cout << tab[i] << " | ";
 	}
+
+	cout << "\n----------------------" << endl;
 
 }
 

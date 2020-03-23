@@ -5,6 +5,7 @@ using namespace std;
 
 struct ElementList
 {
+	
 	int value;
 	ElementList* next, * prev;
 };
@@ -18,12 +19,17 @@ public:
 	void pushFront(int value);
 	void popBack();
 	void pushBack(int value);
+	void addValue(int value, int index);
+	void deleteValue(int value);
 	void display();
 	bool isValueInList(int val);
 	void createRandom(int size);
 	int loadFromFile(string fileName);
 
 	ElementList* head, *tail;
+
+private:
+	void deleteList();
 
 };
 
