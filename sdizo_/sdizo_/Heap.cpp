@@ -1,6 +1,7 @@
 #include "Heap.h"
 #include <iostream>
 #include <time.h>
+#include <fstream>
 
 int COUNT = 10;
 
@@ -14,7 +15,8 @@ Heap::Heap()
 
 void Heap::display()
 {
-	print2DUtil(0, 3);
+	cout << "\n\n";
+	printTree(0, NULL, false);
 }
 
 void Heap::push(int val)
@@ -39,6 +41,22 @@ void Heap::pop()
 	heapTab[0] = heapTab[--size];
 	heapDown(0);
 
+}
+
+void Heap::deleteValue(int val)
+{
+
+
+	for (int i = 0; i < size; i++) {
+		if (val == heapTab[i]) {
+			heapTab[i] = heapTab[--size];
+			heapDown(i);
+			return;
+		}
+			
+	}
+
+	cout << "\nWartosci nie ma w stercie.\n\n";
 }
 
 bool Heap::isValueInHeap(int val)
@@ -68,6 +86,29 @@ void Heap::createRandom(int size)
 
 int Heap::loadFromFile(string fileName)
 {
+	ifstream inf;
+	inf.open(fileName);
+	
+
+	if (inf.is_open()) {
+
+		int tmp;
+		inf >> tmp;
+		size = 0;
+
+		while (!inf.eof()) {
+
+			inf >> tmp;
+			push(tmp);
+			
+
+		}
+
+	}
+	else {
+		cout << "Nie udalo sie odczytac pliku.\n\n";
+	}
+
 	return 0;
 }
 
@@ -132,26 +173,44 @@ int Heap::getParent(int child)
 	return (child - 1)/2;
 }
 
-void Heap::print2DUtil(int root, int space)
+
+void Heap::showTrunks(TrunkHeap* p)
 {
-
-	if (root >= size)
+	if (p == NULL)
 		return;
-	
-    // Increase distance between levels  
-    space += COUNT;
 
-    // Process right child first  
-    print2DUtil(getRight(root), space);
+	showTrunks(p->prev);
+	cout << p->str;
+}
 
-    // Print current node after space  
-    // count  
-	cout << endl;
-	for (int i = COUNT; i < space; i++) {
-		cout << " ";
+void Heap::printTree(int root, TrunkHeap* prev, bool isLeft) {
+	if (size <= 0 || root >=size)
+		return;
+
+	string prev_str = "    ";
+	TrunkHeap* trunk = new TrunkHeap(prev, prev_str);
+
+	printTree(getRight(root), trunk, false);
+
+	if (!prev)
+		trunk->str = "---";
+	else if (!isLeft) {
+		trunk->str = ".---";
+		prev_str = "   |";
 	}
-    cout << heapTab[root] << "\n";
+	else
+	{
+		trunk->str = "`---";
+		prev->str = prev_str;
+	}
 
-    // Process left child  
-    print2DUtil(getLeft(root), space);
+	showTrunks(trunk);
+	cout << heapTab[root] << endl;
+
+	if (prev)
+		prev->str = prev_str;
+
+	trunk->str = "   |";
+
+	printTree(getLeft(root), trunk, true);
 }

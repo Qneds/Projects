@@ -10,6 +10,7 @@ List::List()
 {
 	head = NULL;
 	tail = NULL;
+	size = 0;
 }
 
 void List::popFront()
@@ -29,6 +30,7 @@ void List::popFront()
 
 	if (p) {
 		delete p;
+		size--;
 	}
 
 
@@ -52,6 +54,7 @@ void List::pushFront(int value)
 	}
 
 	newEl->prev = NULL;
+	size++;
 
 }
 
@@ -72,6 +75,7 @@ void List::popBack()
 
 	if (p) {
 		delete p;
+		size--;
 	}
 }
 
@@ -93,53 +97,93 @@ void List::pushBack(int value)
 		tail = newEl;
 	}
 	newEl->next = NULL;
+	size++;
 }
 
 void List::addValue(int value, int index)
 {
-
-	if (head == NULL) {
-		head = new ElementList;
-		head->value = 0;
-		head->prev = NULL;
-		head->next = NULL;
-		tail = head;
-	}
 	
-	ElementList* tmp = head, *tmp_if_null;
+ 
+	if (index >= 0)
+	{
 
-	for (int i = 0; i < index ; i++) {
-		if (tmp->next != NULL) {
-			tmp = tmp->next;
+		if (head == NULL) {
+
+			head = new ElementList;
+			head->value = 0;
+			head->prev = NULL;
+			head->next = NULL;
+			tail = head;
+		}
+
+
+		ElementList* tmp = head,* insert;
+		
+
+
+		if (index < size) {
+
+			for (int i = 0; i < index; i++) {
+				tmp = tmp->next;
+			}
+
+			insert = new ElementList;
+
+			insert->value = value;
+			insert->next = tmp;
+			insert->prev = tmp->prev;
+			
+			if (insert->prev) {
+				insert->prev->next = insert;
+			}
+			else {
+				head = insert;
+			}
+			
+			if (insert->next) {
+				insert->next->prev = insert;
+			}
+			else {
+				tail = insert;
+			}
+			
+			
+
 		}
 		else {
-			tmp_if_null = tmp;
-			tmp = new ElementList;
-			tmp->value = 0;
-			tmp->next = NULL;
-			tmp->prev = tmp_if_null;
-			tmp_if_null->next = tmp;
-			tail = tmp;
-		}
-	}
 
-	if (tmp->next == NULL) {
-		tmp_if_null = tmp;
-		tmp = new ElementList;
-		tmp->value = value;
-		tmp->next = NULL;
-		tmp->prev = tmp_if_null;
-		tmp_if_null->next = tmp;
-		tail = tmp;
+			for (int i = 1; i < index; i++) {
+				
+				if (tmp->next) {
+					tmp = tmp->next;
+				}
+				else {
+					insert = new ElementList;
+
+					insert->value = 0;
+					insert->next = NULL;
+					insert->prev = tmp;
+					tmp->next = insert;
+					tmp = insert;
+					tail = tmp;
+				}
+			}
+
+			insert = new ElementList;
+
+			insert->value = value;
+			insert->next = NULL;
+			insert->prev = tmp;
+			tmp->next = insert;
+			tmp = insert;
+			tail = tmp;
+
+		}
+
+		size++;
 	}
 	else {
-		tmp_if_null = tmp->next;
-		tmp = new ElementList;
-		tmp->value = value;
-		tmp->next = tmp_if_null;
-		tmp->prev = tmp_if_null->prev;
-		tmp_if_null->prev = tmp;
-		tmp->prev->next = tmp;
+		cout << "\nIndex nie moze byc nieujemny\n\n";
 	}
 
 }
@@ -149,15 +193,38 @@ void List::deleteValue(int value)
 
 	ElementList* tmp = head;
 
-	if (tmp != NULL) {
-
+	while (tmp != NULL) {
 		
+		if (tmp->value == value) {
+			
+
+			if (tmp->prev != NULL) {
+				tmp->prev->next = tmp->next;
+			}
+			else {
+				head = tmp->next;
+			}
+
+			if (tmp->next != NULL) {
+				tmp->next->prev = tmp->prev;
+			}
+			else {
+				tail = tmp->prev;
+			}
+
+			delete tmp;
+			size--;
+
+			return;
+		}
+		else
+		{
+			tmp = tmp->next;
+		}
 
 	}
-	else
-	{
-		cout << "Lista jest pusta.\n\n";
-	}
+
+	cout << "Wartosci nie ma w liscie\n";
 
 }
 
@@ -165,30 +232,27 @@ void List::display()
 {
 	cout << "\n\n";
 	
-	cout << "---------------------" << endl;
 	
-	cout << "|         |  przod  | ";
 	
 
 	ElementList* tmp = head;
 
 	while (tmp) {
-		cout << tmp->value << " | ";
+		cout << tmp->value << " ";
 		tmp = tmp->next;
 	}
 
 	cout << endl;
 
-	cout << "|  LISTA  |---------|" << endl;
-	cout << "|         |   tyl   | ";
+	
 	
 	tmp = tail;
 
 	while (tmp) {
-		cout << tmp->value << " | ";
+		cout << tmp->value << " ";
 		tmp = tmp->prev;
 	}
-	cout << "\n---------------------" << endl;
+	
 	cout << "\n\n";
 
 }
@@ -211,29 +275,37 @@ bool List::isValueInList(int val)
 	return false;
 }
 
-void List::createRandom(int size)
+void List::createRandom(int sizen)
 {
-	ElementList *tmpEl;
-	srand(time(NULL));
-
-	deleteList();
-
-	head = new ElementList;
-	head->value = rand() % 1001;
-	head->prev = NULL;
-	head->next = NULL;
-	tail = head;
-
-	for (int i = 0; i < size - 1; i++)
+	if (sizen > 0)
 	{
-		tmpEl = new ElementList;
-		tmpEl->value = rand() % 1001;
-		tmpEl->next = NULL;
-		tmpEl->prev = tail;
-		tail->next = tmpEl;
-		tail = tmpEl;
-	}
+		ElementList* tmpEl;
+		srand(time(NULL));
 
+		deleteList();
+
+		head = new ElementList;
+		head->value = rand() % 1001;
+		head->prev = NULL;
+		head->next = NULL;
+		tail = head;
+		size++;
+
+		for (int i = 0; i < size - 1; i++)
+		{
+			tmpEl = new ElementList;
+			tmpEl->value = rand() % 1001;
+			tmpEl->next = NULL;
+			tmpEl->prev = tail;
+			tail->next = tmpEl;
+			tail = tmpEl;
+			size++;
+		}
+
+	}
+	else {
+		cout << "\nNie mo¿na utworzyæ listy o podanej dlugosci.\n\n";
+	}
 
 }
 
@@ -255,6 +327,7 @@ int List::loadFromFile(string fileName)
 		head->prev = NULL;
 		head->next = NULL;
 		tail = head;
+		size++;
 
 		while (!inf.eof()) {
 
@@ -264,7 +337,7 @@ int List::loadFromFile(string fileName)
 			tmpEl->prev = tail;
 			tail->next = tmpEl;
 			tail = tmpEl;
-
+			size++;
 		}
 
 	}
@@ -284,6 +357,7 @@ void List::deleteList()
 		next = current->next;
 		delete current;
 		current = next;
+		size--;
 	}
 
 }

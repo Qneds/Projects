@@ -13,7 +13,6 @@ class Table
 public:
 
 	Table();
-	~Table();
 
 	int loadFromFile(string FileName);
 
@@ -26,6 +25,7 @@ public:
 	void display();
 
 	void generateTable(int size);
+	void test();
 
 };
 

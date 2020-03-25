@@ -4,6 +4,7 @@
 #include "Table.h"
 #include "List.h"
 #include "Heap.h"
+#include "Bst.h"
 using namespace std;
 
 
@@ -53,6 +54,24 @@ void displayMenuHeap(string info) {
 	cout << info << endl;
 	cout << "1.Wczytaj z pliku" << endl;
 	cout << "2.Usun element z korzenia" << endl;
+	cout << "3.Usun element o podanej wartosci" << endl;
+	cout << "4.Dodaj element" << endl;
+	cout << "5.Znajdz" << endl;
+	cout << "6.Utworz losowo" << endl;
+	cout << "7.Wyswietl" << endl;
+	cout << "8.Test (pomiary)" << endl;
+	cout << "0.Powrot do menu" << endl;
+	cout << "Podaj opcje:";
+
+}
+
+
+void displayMenuBST(string info) {
+
+	cout << endl;
+	cout << info << endl;
+	cout << "1.Wczytaj z pliku" << endl;
+	cout << "2.Usun element" << endl;
 	cout << "3.Dodaj element" << endl;
 	cout << "4.Znajdz" << endl;
 	cout << "5.Utworz losowo" << endl;
@@ -60,13 +79,12 @@ void displayMenuHeap(string info) {
 	cout << "7.Test (pomiary)" << endl;
 	cout << "0.Powrot do menu" << endl;
 	cout << "Podaj opcje:";
-
 }
-
 
 Table myTab; //myTab mo¿e byæ dynamiczna, mo¿e byc zadeklarowana w manu_table 
 List myList;
 Heap myHeap;
+Bst myBST;
 
 void menu_table()
 {
@@ -126,6 +144,8 @@ void menu_table()
 
 		case '7': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
 				  // mo¿na sobie tu dodaæ w³asne case'y
+			myTab.test();
+
 			break;
 		}
 
@@ -244,15 +264,22 @@ void menu_heap()
 			myHeap.pop();
 			myHeap.display();
 			break;
+			
+		case '3': //usuwanie elementu o podanej wartosci
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			myHeap.deleteValue(value);
+			myHeap.display();
+			break;
 
-		case '3': //tutaj dodawanie elementu do sterty
+		case '4': //tutaj dodawanie elementu do sterty
 			cout << " podaj wartoœæ:";
 			cin >> value;
 			myHeap.push(value);
 			myHeap.display();
 			break;
 
-		case '4':  //tutaj znajdowanie elementu w stercie
+		case '5':  //tutaj znajdowanie elementu w stercie
 
 			cout << " podaj wartoœæ:";
 			cin >> value;
@@ -264,7 +291,7 @@ void menu_heap()
 			myHeap.display();
 			break;
 
-		case '5':  //tutaj losowe generowanie sterty
+		case '6':  //tutaj losowe generowanie sterty
 
 			cout << " podaj rozmiar:";
 			cin >> value;
@@ -273,8 +300,73 @@ void menu_heap()
 			myHeap.display();
 			break;
 
-		case '6': //tutaj wyœwietlanie sterty
+		case '7': //tutaj wyœwietlanie sterty
 			myHeap.display();
+			break;
+
+		case '8': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
+				  // mo¿na sobie tu dodaæ w³asne case'y
+			break;
+		}
+
+	} while (opt != '0');
+}
+
+void menu_BST() {
+
+	char opt;
+	string fileName;
+	int value;
+
+	do {
+		displayMenuBST("---- BST ----");
+		opt = _getche();
+		cout << endl;
+		switch (opt) {
+		case '1': //tutaj wczytytwanie drzewa BST z pliku
+			cout << " Podaj nazwê zbioru:";
+			cin >> fileName;
+			myBST.loadFromFile(fileName);
+			myBST.display();
+			break;
+
+		case '2': //tutaj usuwanie wartosci z drzewa BST
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			myBST.pop(value);
+			myBST.display();
+			break;
+
+		case '3': //tutaj dodawanie wartosci do drzewa BST
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			myBST.push(value);
+			myBST.display();
+			break;
+
+		case '4':  //tutaj znajdowanie wartoœci w drzewie BST
+
+			cout << " podaj wartoœæ:";
+			cin >> value;
+			if (myBST.isValueInTree(value))
+				cout << "poadana wartoœc jest w stercie";
+			else
+				cout << "poadanej wartoœci NIE ma w stercie";
+
+			myBST.display();
+			break;
+
+		case '5':  //tutaj losowe generowanie drzewa BST
+
+			cout << " podaj rozmiar:";
+			cin >> value;
+
+			myBST.createRandom(value);
+			myBST.display();
+			break;
+
+		case '6': //tutaj wyœwietlanie drzewa BST
+			myBST.display();
 			break;
 
 		case '7': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
@@ -283,6 +375,7 @@ void menu_heap()
 		}
 
 	} while (opt != '0');
+
 }
 
 int main(int argc, char* argv[])
@@ -295,6 +388,7 @@ int main(int argc, char* argv[])
 		cout << "1.Tablica" << endl;
 		cout << "2.Lista" << endl;
 		cout << "3.Kopiec" << endl;
+		cout << "4.BST" << endl;
 		cout << "0.Wyjscie" << endl;
 		cout << "Podaj opcje:";
 		option = _getche();
@@ -312,7 +406,12 @@ int main(int argc, char* argv[])
 		case '3':
 			menu_heap();
 			break;
+			
+		case '4':
+			menu_BST();
+			break;
 		}
+		
 
 	} while (option != '0');
 

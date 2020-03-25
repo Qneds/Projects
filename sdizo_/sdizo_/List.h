@@ -27,6 +27,7 @@ public:
 	int loadFromFile(string fileName);
 
 	ElementList* head, *tail;
+	int size;
 
 private:
 	void deleteList();
