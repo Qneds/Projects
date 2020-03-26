@@ -28,7 +28,7 @@ void Heap::push(int val)
 	}
 	else
 	{
-		heapTab[size] = val;
+		heapTab[size] = val;	//dodaj na koniec i napraw sterte w gore
 		heapUp(size);
 		size++;
 	}
@@ -38,8 +38,8 @@ void Heap::push(int val)
 void Heap::pop()
 {
 
-	heapTab[0] = heapTab[--size];
-	heapDown(0);
+	heapTab[0] = heapTab[--size];	//wstaw ostania wartosc w miejsce korzenia i napraw 
+	heapDown(0);					// sterte w dol
 
 }
 
@@ -47,10 +47,10 @@ void Heap::deleteValue(int val)
 {
 
 
-	for (int i = 0; i < size; i++) {
-		if (val == heapTab[i]) {
-			heapTab[i] = heapTab[--size];
-			heapDown(i);
+	for (int i = 0; i < size; i++) {		//przeszukaj tablice zawierajaca sterte aby 
+		if (val == heapTab[i]) {			// aby znalezc wartosc do usuniecia
+			heapTab[i] = heapTab[--size];	//wstaw ostania wartosc w miejsce wartosci do usuniecia 
+			heapDown(i);					// i napraw sterte w dol
 			return;
 		}
 			
@@ -62,8 +62,8 @@ void Heap::deleteValue(int val)
 bool Heap::isValueInHeap(int val)
 {
 
-	for (int i = 0; i < size; i++) {
-		if (val == heapTab[i])
+	for (int i = 0; i < size; i++) {		//przeszukaj tablice zawierajaca sterte aby 
+		if (val == heapTab[i])				// znalezc wartosc
 			return true;
 	}
 
@@ -77,8 +77,8 @@ void Heap::createRandom(int size)
 
 	for (int i = 0; i < size; i++) {
 
-		heapTab[i] = rand() % 1001;
-		heapUp(i);
+		heapTab[i] = rand() % 1001;		//uzupelniaj kolejne miejsca w tablicy 
+		heapUp(i);						// i naprawiaj sterte w gore
 	}
 	Heap::size = size;
 
@@ -121,11 +121,11 @@ bool Heap::heapUp(int index)
 		if (index == 0)
 			return true;
 
-		temp = heapTab[index];
+		temp = heapTab[index];				//podmien rodzica z potomkiem
 		heapTab[index] = heapTab[parId];
 		heapTab[parId] = temp;
-		heapUp(parId);
-		return true;
+		heapUp(parId);						//rob to samo dla rodzica tak dlugo, az rodzic
+		return true;						// bedzie wiekszy od swoich potomkow
 	}
 	else
 	{
@@ -145,12 +145,12 @@ bool Heap::heapDown(int index)
 		higher = right;
 	}
 
-	if (heapTab[index] < heapTab[higher]) {
+	if (heapTab[index] < heapTab[higher]) {			//podmien rodzica z wiekszym potomkiem
 		left = heapTab[index];
 		heapTab[index] = heapTab[higher];
 		heapTab[higher] = left;
-		heapDown(higher);
-		return true;
+		heapDown(higher);							//rob to samo dla potomka tak dlugo, az
+		return true;								// rodzic bedzie wiekszy od potomkow
 	}
 	else {
 		return true;
@@ -160,17 +160,17 @@ bool Heap::heapDown(int index)
 
 int Heap::getLeft(int par)
 {
-	return 2*par + 1;
+	return 2*par + 1;		//oblicz index lewego potomka
 }
 
-int Heap::getRight(int par)
+int Heap::getRight(int par)	
 {
-	return 2*par + 2;
+	return 2*par + 2;		//oblicz index prawego potomka
 }
 
 int Heap::getParent(int child)
 {
-	return (child - 1)/2;
+	return (child - 1)/2;	//oblicz index rodzica
 }
 
 

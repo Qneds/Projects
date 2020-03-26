@@ -81,10 +81,15 @@ void displayMenuBST(string info) {
 	cout << "Podaj opcje:";
 }
 
-Table myTab; //myTab mo¿e byæ dynamiczna, mo¿e byc zadeklarowana w manu_table 
+
+//Struktury//
+
+Table myTab;  
 List myList;
 Heap myHeap;
 Bst myBST;
+
+/////////////
 
 void menu_table()
 {
@@ -142,8 +147,7 @@ void menu_table()
 			myTab.display();
 			break;
 
-		case '7': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
-				  // mo¿na sobie tu dodaæ w³asne case'y
+		case '7': //funkcja do testów
 			myTab.test();
 
 			break;
@@ -233,8 +237,8 @@ void menu_list()
 			myList.display();
 			break;
 
-		case 'w': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
-				  // mo¿na sobie tu dodaæ w³asne case'y
+		case 'w': //funkcja do testów
+			myList.test();
 			break;
 		}
 
@@ -253,7 +257,7 @@ void menu_heap()
 		opt = _getche();
 		cout << endl;
 		switch (opt) {
-		case '1': //tutaj wczytytwanie  tablicy z pliku
+		case '1': //tutaj wczytytwanie sterty z pliku
 			cout << " Podaj nazwê zbioru:";
 			cin >> fileName;
 			myHeap.loadFromFile(fileName);
@@ -304,8 +308,7 @@ void menu_heap()
 			myHeap.display();
 			break;
 
-		case '8': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
-				  // mo¿na sobie tu dodaæ w³asne case'y
+		case '8': //fuckcja do testów
 			break;
 		}
 
@@ -369,8 +372,7 @@ void menu_BST() {
 			myBST.display();
 			break;
 
-		case '7': //tutaj nasza funkcja do eksperymentów (pomiary czasów i generowanie daneych) - nie bêdzie testowana przez prowadz¹cego 
-				  // mo¿na sobie tu dodaæ w³asne case'y
+		case '7': //funkcja do testów
 			break;
 		}
 

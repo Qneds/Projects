@@ -50,7 +50,7 @@ int Table::loadFromFile(string FileName) {
 
 bool Table::IsValueInTable(int val) {
 
-	for (int i = 0; i < cnt; i++) {
+	for (int i = 0; i < cnt; i++) {		//przeszukuj cala tabele
 
 		if (val == tab[i]) {
 			return true;
@@ -68,29 +68,29 @@ void Table::addValue(int index, int value) {
 		int* tempTab;
 		int newS = 0, oldTabCnt = 0;
 
-		if (index <= cnt) {
+		if (index <= cnt) {		//kiedy index jest mniejszy od rozmiaru ->zadnych dodatkowych krokow
 			newS = cnt + 1;
 		}
-		else {
+		else {					//kiedy index jest wiekszy od rozmiru ->rozszerz tablice o wartosci z 0
 			newS = index + 1;
 		}
 
 		tempTab = new  int[newS];
 
-		for (int i = 0; i < newS; i++) {
-			if (i == index) {
+		for (int i = 0; i < newS; i++) {			//przepisz stara tablice do nowej i wstaw nowa wartosc
+			if (i == index) {						// w podane miejsce
 				tempTab[i] = value;
 			}
-			else if (oldTabCnt < cnt) {
+			else if (oldTabCnt < cnt) {				
 				tempTab[i] = tab[oldTabCnt];
 				oldTabCnt++;
 			}
-			else {
+			else {									//rozszerzanie tablicy o 0
 				tempTab[i] = 0;
 			}
 		}
 
-		cnt = newS;
+		cnt = newS;									//usun poprzednia tablice
 		delete tab;
 		tab = tempTab;
 
@@ -108,14 +108,14 @@ void Table::deleteFromTable(int index) {
 		int newS = cnt - 1, tmpCn = 0;
 		int* temp = new int[newS];
 
-		for (int i = 0; i < cnt; i++) {
-			if (index != i) {
+		for (int i = 0; i < cnt; i++) {			//przepisz zawartosc starej tablicy do nowej
+			if (index != i) {					// pomijajac wartosc o podanym indexie
 				temp[tmpCn] = tab[i];
 				tmpCn++;
 			}
 		}
 
-		delete tab;
+		delete tab;								//usun stara tablice
 		tab = temp;
 		cnt = newS;
 
@@ -147,12 +147,12 @@ void Table::generateTable(int size) {
 	{
 		srand(time(NULL));
 
-		delete tab;
-		cnt = size;
+		delete tab;							//usun stara tablice, stworz nowa o podanym rozmiarze
+		cnt = size;							// i wypelnij ja losowymi wartosciami
 		tab = new int[cnt];
 
 		for (int i = 0; i < cnt; i++) {
-			tab[i] = rand() % 1001;
+			tab[i] = rand() % 10001;
 		}
 	}
 	else {
@@ -181,21 +181,22 @@ void Table::test()
 		inf	<< "czas dodawania w losowe miejsce[ns];";
 		inf << "czas uswania z poczatku[ns];";
 		inf << "czas usuwania z konca[ns];";
-		inf << "czas usuwania z losowego miejsca[ns]";
+		inf << "czas usuwania z losowego miejsca[ns];";
+		inf << "czas znajdowania losowego elementu[ns]";
 		inf << endl;
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 20; i++) {
 
 			generateTable(sizeT);
-
 			inf << sizeT << ";";
 
 			for (int l = 0; l < 100; l++) {
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				addValue(0, rand() % 10001);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
 			inf << avg << ";";
@@ -206,8 +207,9 @@ void Table::test()
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				addValue(cnt - 1, rand() % 10001);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
 			inf << avg << ";";
@@ -218,8 +220,9 @@ void Table::test()
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				addValue(rand()% cnt, rand() % 10001);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
 			inf << avg << ";";
@@ -231,8 +234,9 @@ void Table::test()
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				deleteFromTable(0);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
 			inf << avg << ";";
@@ -243,8 +247,9 @@ void Table::test()
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				deleteFromTable(cnt - 1);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
 			inf << avg << ";";
@@ -255,10 +260,26 @@ void Table::test()
 
 				auto t0 = std::chrono::high_resolution_clock::now();
 				deleteFromTable(rand() % cnt);
-				auto nanosec = t0.time_since_epoch();
-				avg += nanosec.count();
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
 			}
 			avg /= 100;
+			inf << avg << ";";
+
+			avg = 0;
+
+			for (int l = 0; l < 100; l++) {
+
+				auto t0 = std::chrono::high_resolution_clock::now();
+				IsValueInTable(rand()% 10001);
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
+			}
+			avg /= 100;
+
+
 			inf << avg << "\n";
 
 			sizeT += 2000;

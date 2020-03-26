@@ -14,17 +14,12 @@ public:
 
 	Table();
 
-	int loadFromFile(string FileName);
-
-	bool IsValueInTable(int val);
-
-	void addValue(int index, int value);
-
-	void deleteFromTable(int index);
-
-	void display();
-
-	void generateTable(int size);
+	int loadFromFile(string FileName);		//wczytaj liste
+	bool IsValueInTable(int val);			//czy tabela zawiera wartosc
+	void addValue(int index, int value);	//dodaj we wskazane miejsce
+	void deleteFromTable(int index);		//usun wartosc o podanym indexie
+	void display();							//wyswietl tabele
+	void generateTable(int size);			//wygeneruj liste
 	void test();
 
 };
