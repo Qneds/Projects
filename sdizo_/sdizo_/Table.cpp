@@ -174,7 +174,7 @@ void Table::test()
 		srand(time(NULL));
 		long long avg = 0;
 
-		int sizeT = 2000;
+		int sizeT = 2000, tmp = 0;
 
 		inf << "rozmiar;czas dodawania na poczatek[ns];";
 		inf << "czas dodawania na koniec[ns];";
@@ -191,9 +191,9 @@ void Table::test()
 			inf << sizeT << ";";
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				addValue(0, rand() % 10001);
+				addValue(0, tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -204,9 +204,9 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				addValue(cnt - 1, rand() % 10001);
+				addValue(cnt - 1, tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -217,9 +217,9 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				addValue(rand()% cnt, rand() % 10001);
+				addValue(rand()% cnt, tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -231,7 +231,7 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				
 				auto t0 = std::chrono::high_resolution_clock::now();
 				deleteFromTable(0);
 				auto t1 = std::chrono::high_resolution_clock::now();
@@ -244,7 +244,7 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				
 				auto t0 = std::chrono::high_resolution_clock::now();
 				deleteFromTable(cnt - 1);
 				auto t1 = std::chrono::high_resolution_clock::now();
@@ -257,9 +257,9 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % cnt;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				deleteFromTable(rand() % cnt);
+				deleteFromTable(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -270,9 +270,9 @@ void Table::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				IsValueInTable(rand()% 10001);
+				IsValueInTable(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;

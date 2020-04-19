@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-constexpr auto HEAP_TAB_MAX = 10000;
+constexpr auto HEAP_TAB_MAX = 80000;
 
 using namespace std;
 
@@ -21,12 +21,13 @@ class Heap
 public :
 	Heap();
 	void display();						//wyswietl sterte
-	void push(int val);					//dodaj wartosc na koniec sterty
+	void push(int val);					//dodaj wartosc 
 	void pop();							//usun korzen i napraw sterte w dol
 	void deleteValue(int val);			//usun konkretny wezel i napraw sterte wdol
 	bool isValueInHeap(int val);		//czy sterta zawiera wartosc
 	void createRandom(int size);		//wygeneruj losowa sterte
 	int loadFromFile(string fileName);	//wczytaj sterte w pliku
+	void test();						//funkcja do testow
 
 
 private:

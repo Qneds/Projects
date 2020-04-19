@@ -1,0 +1,1 @@
+rozmiar;czas dodawania elementu[ns];czas uswania elementu[ns];czas znajdowania losowego elementu[ns]

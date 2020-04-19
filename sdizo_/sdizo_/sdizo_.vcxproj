@@ -141,6 +141,7 @@
     <ClCompile Include="Bst.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="List.cpp" />
+    <ClCompile Include="RBTree.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="Źródło.cpp" />
   </ItemGroup>
@@ -148,7 +149,9 @@
     <ClInclude Include="Bst.h" />
     <ClInclude Include="Heap.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="RBTree.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="Trunk.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

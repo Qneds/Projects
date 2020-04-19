@@ -5,6 +5,7 @@
 #include "List.h"
 #include "Heap.h"
 #include "Bst.h"
+#include "RBTree.h"
 using namespace std;
 
 
@@ -66,7 +67,7 @@ void displayMenuHeap(string info) {
 }
 
 
-void displayMenuBST(string info) {
+void displayMenuRBTree(string info) {
 
 	cout << endl;
 	cout << info << endl;
@@ -88,6 +89,7 @@ Table myTab;
 List myList;
 Heap myHeap;
 Bst myBST;
+RBTree myRBTree;
 
 /////////////
 
@@ -309,54 +311,55 @@ void menu_heap()
 			break;
 
 		case '8': //fuckcja do testów
+			myHeap.test();
 			break;
 		}
 
 	} while (opt != '0');
 }
 
-void menu_BST() {
+void menu_RBT() {
 
 	char opt;
 	string fileName;
 	int value;
 
 	do {
-		displayMenuBST("---- BST ----");
+		displayMenuRBTree("---- Drzewo czerwono-czarne ----");
 		opt = _getche();
 		cout << endl;
 		switch (opt) {
 		case '1': //tutaj wczytytwanie drzewa BST z pliku
 			cout << " Podaj nazwê zbioru:";
 			cin >> fileName;
-			myBST.loadFromFile(fileName);
-			myBST.display();
+			myRBTree.loadFromFile(fileName);
+			myRBTree.display();
 			break;
 
 		case '2': //tutaj usuwanie wartosci z drzewa BST
 			cout << " podaj wartoœæ:";
 			cin >> value;
-			myBST.pop(value);
-			myBST.display();
+			myRBTree.pop(value);
+			myRBTree.display();
 			break;
 
 		case '3': //tutaj dodawanie wartosci do drzewa BST
 			cout << " podaj wartoœæ:";
 			cin >> value;
-			myBST.push(value);
-			myBST.display();
+			myRBTree.push(value);
+			myRBTree.display();
 			break;
 
 		case '4':  //tutaj znajdowanie wartoœci w drzewie BST
 
 			cout << " podaj wartoœæ:";
 			cin >> value;
-			if (myBST.isValueInTree(value))
+			if (myRBTree.isValueInTree(value))
 				cout << "poadana wartoœc jest w stercie";
 			else
 				cout << "poadanej wartoœci NIE ma w stercie";
 
-			myBST.display();
+			myRBTree.display();
 			break;
 
 		case '5':  //tutaj losowe generowanie drzewa BST
@@ -364,15 +367,16 @@ void menu_BST() {
 			cout << " podaj rozmiar:";
 			cin >> value;
 
-			myBST.createRandom(value);
-			myBST.display();
+			myRBTree.createRandom(value);
+			myRBTree.display();
 			break;
 
 		case '6': //tutaj wyœwietlanie drzewa BST
-			myBST.display();
+			myRBTree.display();
 			break;
 
 		case '7': //funkcja do testów
+			myRBTree.test();
 			break;
 		}
 
@@ -390,7 +394,7 @@ int main(int argc, char* argv[])
 		cout << "1.Tablica" << endl;
 		cout << "2.Lista" << endl;
 		cout << "3.Kopiec" << endl;
-		cout << "4.BST" << endl;
+		cout << "4.RBTree" << endl;
 		cout << "0.Wyjscie" << endl;
 		cout << "Podaj opcje:";
 		option = _getche();
@@ -410,7 +414,7 @@ int main(int argc, char* argv[])
 			break;
 			
 		case '4':
-			menu_BST();
+			menu_RBT();
 			break;
 		}
 		

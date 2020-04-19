@@ -321,27 +321,32 @@ int List::loadFromFile(string fileName)
 	if (inf.is_open()) {
 
 		ElementList *tmpEl;
-		deleteList();				//usun poprzednia liste
+		int tmpSz;
+		inf >> tmpSz;
 
-		head = new ElementList;		//utworz pierwszy element
+		if (tmpSz > 0)
+		{
+			size = tmpSz;
+			deleteList();			//usun poprzednia liste
+			head = new ElementList;		//utworz pierwszy element
 
-		inf >> head->value;
+			inf >> head->value;
+			head->prev = NULL;
+			head->next = NULL;
+			tail = head;
 
-		inf >> head->value;
-		head->prev = NULL;
-		head->next = NULL;
-		tail = head;
-		size++;
+			for (int i = 0; i < size - 1; i++) {		//dodawaj nastepne elementy
 
-		while (!inf.eof()) {		//dodawaj nastepne elementy
-
-			tmpEl = new ElementList;
-			inf >> tmpEl->value;
-			tmpEl->next = NULL;
-			tmpEl->prev = tail;
-			tail->next = tmpEl;
-			tail = tmpEl;
-			size++;
+				tmpEl = new ElementList;
+				inf >> tmpEl->value;
+				tmpEl->next = NULL;
+				tmpEl->prev = tail;
+				tail->next = tmpEl;
+				tail = tmpEl;
+			}
+		}
+		else {
+			cout << "Nie da sie utworzyc listy o ilosci elementow <= 0\n\n";
 		}
 
 	}
@@ -362,7 +367,7 @@ void List::test()
 		srand(time(NULL));
 		long long avg = 0;
 
-		int sizeT = 2000;
+		int sizeT = 2000, tmp = 0;
 
 		inf << "rozmiar;czas dodawania na poczatek[ns];";
 		inf << "czas dodawania na koniec[ns];";
@@ -379,9 +384,9 @@ void List::test()
 			inf << sizeT << ";";
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				pushFront(rand() % 10001);
+				pushFront(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -392,9 +397,9 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				pushBack(rand() % 10001);
+				pushBack(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -405,9 +410,9 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				addValue(rand() % size, rand() % 10001);
+				addValue(rand() % size, tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -419,7 +424,7 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
 				popFront();
 				auto t1 = std::chrono::high_resolution_clock::now();
@@ -432,7 +437,7 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
 				popBack();
 				auto t1 = std::chrono::high_resolution_clock::now();
@@ -445,9 +450,9 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				deleteValue(rand() % 10001);
+				deleteValue(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;
@@ -458,9 +463,9 @@ void List::test()
 			avg = 0;
 
 			for (int l = 0; l < 100; l++) {
-
+				tmp = rand() % 10001;
 				auto t0 = std::chrono::high_resolution_clock::now();
-				isValueInList(rand() % 10001);
+				isValueInList(tmp);
 				auto t1 = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 				avg += duration;

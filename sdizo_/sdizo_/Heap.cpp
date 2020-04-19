@@ -2,6 +2,7 @@
 #include <iostream>
 #include <time.h>
 #include <fstream>
+#include <chrono>
 
 int COUNT = 10;
 
@@ -50,7 +51,13 @@ void Heap::deleteValue(int val)
 	for (int i = 0; i < size; i++) {		//przeszukaj tablice zawierajaca sterte aby 
 		if (val == heapTab[i]) {			// aby znalezc wartosc do usuniecia
 			heapTab[i] = heapTab[--size];	//wstaw ostania wartosc w miejsce wartosci do usuniecia 
-			heapDown(i);					// i napraw sterte w dol
+			
+			if (heapTab[i] > heapTab[getParent(i)]) {
+				heapUp(i);
+			}
+			else if (heapTab[i] < heapTab[getParent(i)]) {
+				heapDown(i);
+			}		
 			return;
 		}
 			
@@ -77,7 +84,7 @@ void Heap::createRandom(int size)
 
 	for (int i = 0; i < size; i++) {
 
-		heapTab[i] = rand() % 1001;		//uzupelniaj kolejne miejsca w tablicy 
+		heapTab[i] = rand() % 100001;		//uzupelniaj kolejne miejsca w tablicy 
 		heapUp(i);						// i naprawiaj sterte w gore
 	}
 	Heap::size = size;
@@ -93,13 +100,14 @@ int Heap::loadFromFile(string fileName)
 	if (inf.is_open()) {
 
 		int tmp;
-		inf >> tmp;
-		size = 0;
+		inf >> size;
+		
 
-		while (!inf.eof()) {
+		for (int i = 0; i < size; i++) {
 
 			inf >> tmp;
-			push(tmp);
+			heapTab[i] = tmp;	//dodaj na koniec i napraw sterte w gore
+			heapUp(i);
 			
 
 		}
@@ -110,6 +118,80 @@ int Heap::loadFromFile(string fileName)
 	}
 
 	return 0;
+}
+
+void Heap::test()
+{
+	ofstream inf;
+	inf.open("Sterta-dane.txt");
+
+	if (inf.is_open()) {
+
+		srand(time(NULL));
+		long long avg = 0;
+
+		int sizeT = 2000, tmp = 0;;
+
+		inf << "rozmiar;";
+		inf << "czas dodawania elementu[ns];";
+		inf << "czas uswania elementu[ns];";
+		inf << "czas znajdowania losowego elementu[ns]";
+		inf << endl;
+
+		for (int i = 0; i < 20; i++) {
+
+			createRandom(sizeT);
+			inf << sizeT << ";";
+
+			for (int l = 0; l < 100; l++) {
+				tmp = rand() % 100001;
+				auto t0 = std::chrono::high_resolution_clock::now();
+				push(rand() % tmp);
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
+			}
+			avg /= 100;
+			inf << avg << ";";
+
+			avg = 0;
+
+			for (int l = 0; l < 100; l++) {
+				tmp = rand() % 100001;
+				auto t0 = std::chrono::high_resolution_clock::now();
+				deleteValue(tmp);
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
+			}
+			avg /= 100;
+			inf << avg << ";";
+
+			avg = 0;
+
+
+			for (int l = 0; l < 100; l++) {
+				tmp = rand() % 100001;
+				auto t0 = std::chrono::high_resolution_clock::now();
+				isValueInHeap(tmp);
+				auto t1 = std::chrono::high_resolution_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+				avg += duration;
+			}
+			avg /= 100;
+
+
+			inf << avg << "\n";
+
+			sizeT += 2000;
+
+		}
+
+		inf.close();
+
+	}
+
+
 }
 
 bool Heap::heapUp(int index)

@@ -140,22 +140,28 @@ int Bst::loadFromFile(string fileName)
 
 		Node tmpNode;
 		postorderDeleteNodes(root);
-		int tmpVal;
+		int tmpVal, size;
 
 		root = new Node;
 
-		inf >> root->value;
+		inf >> size;
 
-		inf >> root->value;
-		root->parent = NULL;
-		root->left = NULL;
-		root->right = NULL;
+		if (size > 0)
+		{
+			inf >> root->value;
+			root->parent = NULL;
+			root->left = NULL;
+			root->right = NULL;
 
-		while (!inf.eof()) {
+			for (int i = 0; i < size - 1; i++) {
 
-			inf >> tmpVal;
-			push(tmpVal);
+				inf >> tmpVal;
+				push(tmpVal);
 
+			}
+		}
+		else {
+			cout << "Nie mo¿na utworzyc drzewa o ilosci elementow <= 0.\n\n";
 		}
 
 	}
