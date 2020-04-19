@@ -19,7 +19,7 @@ void RBTree::display()				//wyswietl drzewo
 
 bool RBTree::push(int value)
 {
-	RBNode* y = NULL;
+	RBNode* y = NULL;				//dsf
 	RBNode* x = root;
 	
 
